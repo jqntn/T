@@ -4,7 +4,7 @@ db "/entry:main /subsystem:windows"
 .drectve ends
 
 includelib user32.lib
-include inc.txt
+include I
 
 .data
 msg db "Hi"
