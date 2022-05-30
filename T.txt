@@ -1,0 +1,25 @@
+option dotname
+.drectve segment info
+db "/entry:main /subsystem:windows"
+.drectve ends
+
+includelib user32.lib
+include inc.txt
+
+.data
+msg db "Hi"
+
+.code
+main proc
+push rsp
+
+call SetProcessDPIAware
+mov rcx, 0
+lea rdx, msg
+lea r8, msg
+mov r9, 0
+call MessageBoxA
+
+pop rsp
+main endp
+end
