@@ -4,6 +4,7 @@ db "/entry:main /subsystem:windows"
 .drectve ends
 
 includelib user32.lib
+includelib opengl32.lib
 include I
 
 .data
