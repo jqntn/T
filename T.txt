@@ -3,22 +3,59 @@ option dotname
 db "/entry:main /subsystem:windows"
 .drectve ends
 
-includelib user32.lib
-includelib opengl32.lib
+includelib kernel32
+includelib user32
+includelib opengl32
+includelib gdi32
 include I
 
+externdef NvOptimusEnablement :dword
+externdef AmdPowerXpressRequestHighPerformance :dword
+
 .data
-msg db "Hi"
+NvOptimusEnablement dd 1
+AmdPowerXpressRequestHighPerformance dd 1
+wc db "Static", 0
+w dq ?
+h dq ?
 
 .code
 main proc
 push rsp
 
 call SetProcessDPIAware
-mov rcx, 0
-lea rdx, msg
-lea r8, msg
-mov r9, 0
+
+mov rcx, rax
+lea rdx, wc
+mov r9, 80000000h
+call CreateWindowExA
+mov w, rax
+
+mov rcx, w
+call GetDC
+mov h, rax
+
+mov rcx, w
+mov rdx, 3
+call ShowWindow
+
+mov rcx, h
+mov rdx, 41
+call SetPixelFormat
+
+call wglCreateContext
+mov rdx, rax
+call wglMakeCurrent
+
+mov rcx, h
+call SwapBuffers
+
+call wglGetCurrentContext
+
+;call GetLastError
+
+xor rcx, rcx
+mov r8, rax
 call MessageBoxA
 
 pop rsp
